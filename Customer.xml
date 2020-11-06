@@ -1,0 +1,49 @@
+<?xml version="1.0"?><!-- Angebote -->
+<root>
+<OfferCustomerInfo>
+  <Font>Arial</Font>
+  <Border>1</Border>
+  <PosX>1000</PosX>
+  <PosY>250</PosY>
+  <TotalWidth>500</TotalWidth>
+  <Offer_Label>
+    <Font>Courier</Font>
+    <FontSize>6</FontSize>
+    <FontStyle>0</FontStyle><!-- 0:Normal | Bold:1 | STRIKETHRU:8 | ITALIC:2 | BOLDITALIC:3    -->
+    <FontBaseColor>Black</FontBaseColor>
+  </Offer_Label>
+  <Offer_Text>
+    <Font>Arial</Font>
+    <FontSize>6</FontSize>
+    <FontStyle>1</FontStyle>
+    <FontBaseColor>Grey</FontBaseColor>
+  </Offer_Text>
+</OfferCustomerInfo>
+
+<OfferAdress>
+  <Font>Arial</Font>
+  <Border>1</Border>
+  <PosX>250</PosX>
+  <PosY>250</PosY>
+  <TotalWidth>500</TotalWidth>
+  <Offer_Adress>
+    <Font>Arial</Font>
+    <FontSize>6</FontSize>
+    <FontStyle>0</FontStyle><!-- 0:Normal | Bold:1 | STRIKETHRU:8 | ITALIC:2 | BOLDITALIC:3    -->
+    <FontBaseColor>Black</FontBaseColor>
+  </Offer_Adress>
+</OfferAdress>
+
+<ImageTOP>
+  <PosX>250</PosX>
+  <PosY>15</PosY>
+  <Scale>100</Scale>
+</ImageTOP>
+    
+<ImageTOPRight>
+  <PosX>1000</PosX>
+  <PosY>15</PosY>
+  <Scale>100</Scale>
+</ImageTOPRight>
+
+</root>
