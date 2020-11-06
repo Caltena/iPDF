@@ -9,6 +9,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 
+using iTextSharp.text.pdf.qrcode;
+using iTextSharp.text.pdf.codec;
+using System.ComponentModel;
+
+using System.Xml.Linq;
+using System.Dynamic;
+
 
 namespace iText_Net_DLL
 {
@@ -45,6 +52,15 @@ namespace iText_Net_DLL
         }
 
 
+        public void SetQR()
+        {
+            /* QR-Code */
+             Image qrcodeImage = CreateQrCodeImage("This is a text ...");
+             qrcodeImage.SetAbsolutePosition(100, 100 );
+             qrcodeImage.ScalePercent(200);
+             qrcodeImage.Width =840;
+             document.Add(qrcodeImage);
+        }
 
 
 
@@ -131,8 +147,6 @@ namespace iText_Net_DLL
             return (table);
         }
 
-
-
         private PdfPCell CreateHeaderCell(string sText )
         {
             PdfPCell pcell = new PdfPCell();
@@ -143,7 +157,6 @@ namespace iText_Net_DLL
             pcell.HorizontalAlignment = Element.ALIGN_CENTER;
             return pcell;
         }
-
 
         public PdfPTable CustomerRef(System.Collections.Generic.List<CustomerRef> customerRefs)
         {
@@ -184,7 +197,6 @@ namespace iText_Net_DLL
             return (table);
         }
 
-
         private PdfPCell CreateAdressCell(string sText, iTextSharp.text.Font fontTable, int bTop, int bBottom, int bRight, int bLeft)
         {
             PdfPCell pcell = new PdfPCell();
@@ -202,8 +214,6 @@ namespace iText_Net_DLL
             pcell.HorizontalAlignment = Element.ALIGN_LEFT;
             return pcell;
         }
-
-
 
         public void SetText(BaseFont bF, Int32 x, Int32 y)
         {
@@ -227,8 +237,31 @@ namespace iText_Net_DLL
             document.AddHeader("Nothing", "No Header");
         }
 
-
-
+        private static Image CreateQrCodeImage(string content)
+        {
+            var qrCodeWriter = new QRCodeWriter();
+            var byteMatrix = qrCodeWriter.Encode(content, 1, 1, null);
+            var width = byteMatrix.GetWidth();
+            var height = byteMatrix.GetHeight();
+            var stride = (width + 7) / 8;
+            var bitMatrix = new byte[stride * height];
+            var byteMatrixArray = byteMatrix.GetArray();
+            for (int y = 0; y < height; ++y)
+            {
+                var line = byteMatrixArray[y];
+                for (var x = 0; x < width; ++x)
+                {
+                    if (line[x] != 0)
+                    {
+                        int offset = stride * y + x / 8;
+                        bitMatrix[offset] |= (byte)(0x80 >> (x % 8));
+                    }
+                }
+            }
+            var encodedImage = Ccittg4Encoder.Compress(bitMatrix, byteMatrix.GetWidth(), byteMatrix.GetHeight());
+            var qrcodeImage = Image.GetInstance(byteMatrix.GetWidth(), byteMatrix.GetHeight(), false, Image.CCITTG4, Image.CCITT_BLACKIS1, encodedImage, null);
+            return qrcodeImage;
+        }
 
 
     }
