@@ -31,6 +31,7 @@ namespace iTextSharp.text.pdf.qrcode {
      * meaning they represent lower x values. This is compatible with BitArray's implementation.</p>
      *
      * @author Sean Owen
+     * 
      * @author dswitkin@google.com (Daniel Switkin)
      */
     public sealed class BitMatrix {
