@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="ConverterXML.cs" />
     <Compile Include="InitPdf.cs" />
+    <Compile Include="ITextEvents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadAdressXML.cs" />
     <Compile Include="ReadCustomerXML.cs" />

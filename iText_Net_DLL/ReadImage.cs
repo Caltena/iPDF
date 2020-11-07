@@ -19,7 +19,6 @@ namespace iText_Net_DLL
             this.PosX = 10;
             this.PosY = 10;
             this.Scale = 100;
-
         }
 
         /// <summary>
@@ -29,7 +28,6 @@ namespace iText_Net_DLL
         {
             initClass();
         }
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomerReferenz"/> class.
