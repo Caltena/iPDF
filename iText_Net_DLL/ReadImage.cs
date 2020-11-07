@@ -1,21 +1,17 @@
-﻿using System.IO;
-
+﻿
+using System.IO;
 using iTextSharp.text;
-
-
 using System.Linq;
 using System.Xml.Linq;
 using System;
 
 namespace iText_Net_DLL
 {
-    public class ReadImage
+    public class ReadImage : ConverterXML
     {
         public int PosX { get; set; }
         public int PosY { get; set; }
         public int Scale { get; set; }
-
-
 
 
         private void initClass()
@@ -51,21 +47,6 @@ namespace iText_Net_DLL
             this.PosX = MmmToPixel(Convert.ToDouble((from c in loaded.Descendants(xTag) select (string)c.Element("PosX")).SingleOrDefault()));
             this.Scale = MmmToPixel(Convert.ToDouble((from c in loaded.Descendants(xTag) select (string)c.Element("Scale")).SingleOrDefault()));
         }
-
-
-        /// <summary>
-        /// Centimeterses to pixel.
-        /// </summary>
-        /// <param name="mmm">The centimeters.</param>
-        /// <returns></returns>
-        public int MmmToPixel(double mmm)
-        {
-            double inches = (mmm / 254) * 72.0;
-            return (int)Math.Round(inches);
-        }
-
-
-
     }
 
 }

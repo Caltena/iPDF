@@ -7,9 +7,9 @@ using System.Linq;
 using System.Xml.Linq;
 using System;
 
-namespace iText_Net_DLL
+namespace iText_Net_DLL  
 {
-    public class CustomerReferenz
+    public class CustomerReferenz : ConverterXML
     {
         public int PosX { get; set; }
         public int PosY { get; set; }
@@ -123,45 +123,6 @@ namespace iText_Net_DLL
 
 
         }
-
-
-        /// <summary>
-        /// Centimeterses to pixel.
-        /// </summary>
-        /// <param name="mmm">The centimeters.</param>
-        /// <returns></returns>
-        public int MmmToPixel(double mmm)
-        {
-            double inches = (mmm / 254) * 72.0;
-            return (int)Math.Round(inches);
-        }
-
-
-
-        private BaseColor cBasecolor(string _Basecolor)
-        {
-            BaseColor rBaseColor;
-            switch (_Basecolor.ToLower())
-            {
-                case "black":
-                    rBaseColor = BaseColor.Black;
-                    break;
-                case "red":
-                    rBaseColor = BaseColor.Red;
-                    break;
-                case "green":
-                    rBaseColor = BaseColor.Green;
-                    break;
-                case "grey":
-                    rBaseColor = BaseColor.Gray;
-                    break;
-                default:
-                    rBaseColor = BaseColor.Black;
-                    break;
-            }
-            return rBaseColor;
-        }
-
     }
 
 }
