@@ -14,7 +14,7 @@ namespace iText_Net
     {
         static void Main(string[] args)
         {
-            InitPdf iPDF = new InitPdf(@"c:\apps\test.pdf", new Document(PageSize.A4 ,72, 72, 108, 108));
+            InitPdf iPDF = new InitPdf(@"c:\apps\test.pdf", new Document(PageSize.A4 ,72, 72, 108, 108) , @"C:\apps\Customer.xml");
             iPDF.Start();
 
 

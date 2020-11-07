@@ -26,13 +26,20 @@ namespace iText_Net_DLL
         private Document document;
         private PdfWriter writer;
 
+        private string _sCustomerFile;
+        public string sCustomerFile
+        {
+            get { return _sCustomerFile; }
+            set { _sCustomerFile = value; }
+        }
 
-        public InitPdf(string _File, Document _doc)
+
+        public InitPdf(string _File, Document _doc ,string _sCustomerFile)
         {
             FileStream fs = new FileStream(_File, FileMode.Create, FileAccess.Write, FileShare.None);
             this.document = _doc;
             this.writer = PdfWriter.GetInstance(document, fs);
-            //this.writer.PageEvent = new Footer();
+            this.sCustomerFile = _sCustomerFile;
             writer.PageEvent = new ITextEvents();
         }
 
@@ -40,7 +47,8 @@ namespace iText_Net_DLL
         public void Start()
         {
             this.document.Open();
-            SetMetaPDF("Claus Altena");        
+            SetMetaPDF("Claus Altena");
+            SetQR();
         }
 
 
@@ -57,8 +65,6 @@ namespace iText_Net_DLL
             /* QR-Code */
              Image qrcodeImage = CreateQrCodeImage("This is a text ...");
              qrcodeImage.SetAbsolutePosition(100, 100 );
-             qrcodeImage.ScalePercent(200);
-             qrcodeImage.Width =840;
              document.Add(qrcodeImage);
         }
 
