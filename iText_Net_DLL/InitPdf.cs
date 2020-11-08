@@ -29,7 +29,7 @@ namespace iText_Net_DLL
         }
 
 
-        public InitPdf(string _File, Document _doc ,string _sCustomerFile)
+        public InitPdf(string _File, Document _doc, string _sCustomerFile)
         {
             FileStream fs = new FileStream(_File, FileMode.Create, FileAccess.Write, FileShare.None);
             this.document = _doc;
@@ -66,17 +66,17 @@ namespace iText_Net_DLL
         #region Metadaten
         public void SetMeta()
         {
-            SetMetaPDF("Claus Altena");
+            
         }
 
-        public void SetMetaPDF(string Author)
+        public void SetMetaPDF(PdfMeta cMeta)
         {
-            document.AddTitle("Hello World example");
-            document.AddSubject("This is an Example 4 of Chapter 1 of Book 'iText in Action'");
-            document.AddKeywords("Metadata, iTextSharp 5.4.4, Chapter 1, Tutorial");
-            document.AddCreator("iTextSharp 5.4.4");
-            document.AddAuthor(Author);
-            document.AddHeader("Nothing", "No Header");
+            document.AddTitle(cMeta.Title);
+            document.AddSubject(cMeta.Subject);
+            document.AddKeywords(cMeta.Keywords);
+            document.AddCreator(cMeta.Creator);
+            document.AddAuthor(cMeta.Author);
+            document.AddHeader(cMeta.Header, "");
         }
         #endregion
 
@@ -84,7 +84,7 @@ namespace iText_Net_DLL
         public void SetQR(string xTag)
         {
             /* QR-Code */
-            
+
             ReadImage cAdd = new ReadImage(xTag, sCustomerFile);
             Image qrcodeImage = CreateQrCodeImage("This is a text ...");
             qrcodeImage.SetAbsolutePosition(cAdd.PosX, (float)(document.PageSize.Height - cAdd.PosY - (int)Math.Round((qrcodeImage.Height / 254) * 72.0)));
@@ -94,18 +94,18 @@ namespace iText_Net_DLL
         #endregion
 
         #region Image
-        public void SetImage( string xTag , string sFile)
+        public void SetImage(string xTag, string sFile)
         {
             ReadImage cAdd = new ReadImage(xTag, sCustomerFile);
             Image qrcodeImage = Image.GetInstance(sFile);
-            qrcodeImage.SetAbsolutePosition(cAdd.PosX, (float)(document.PageSize.Height - cAdd.PosY  - (int)Math.Round((qrcodeImage.Height / 254) * 72.0) ));
-            qrcodeImage.ScalePercent(cAdd.Scale );
+            qrcodeImage.SetAbsolutePosition(cAdd.PosX, (float)(document.PageSize.Height - cAdd.PosY - (int)Math.Round((qrcodeImage.Height / 254) * 72.0)));
+            qrcodeImage.ScalePercent(cAdd.Scale);
             document.Add(qrcodeImage);
         }
         #endregion
 
         #region Customer Adress & Referenz
-        public PdfPTable CustomerAddress(List<string> sCustomerAdress, string sSender )
+        public PdfPTable CustomerAddress(List<string> sCustomerAdress, string sSender)
         {
             ReadAdress cAdd = new ReadAdress(sCustomerFile);
             PdfContentByte pcb = writer.DirectContent;
@@ -215,12 +215,12 @@ namespace iText_Net_DLL
         #endregion
 
         #region TableCell
-        private PdfPCell CreateHeaderCell(string sText )
+        private PdfPCell CreateHeaderCell(string sText)
         {
             PdfPCell pcell = new PdfPCell();
             pcell.Phrase = new Phrase(sText);
             pcell.Border = 0;
-            
+
             pcell.VerticalAlignment = Element.ALIGN_BOTTOM;
             pcell.HorizontalAlignment = Element.ALIGN_CENTER;
             return pcell;
@@ -299,17 +299,38 @@ namespace iText_Net_DLL
     }
 
 
-
-
     public class CustomerRef
     {
         public string sLabel { get; set; }
         public string sText { get; set; }
 
-        public CustomerRef( string _sLabel , string _sText)
+        public CustomerRef(string _sLabel, string _sText)
         {
             this.sLabel = _sLabel;
             this.sText = _sText;
         }
+    }
+
+    public class PdfMeta
+    {
+ 
+
+        public string Title { get; set; }
+        public string Subject { get; set; }
+        public string Keywords { get; set; }
+        public string Creator { get; set; }
+        public string Author { get; set; }
+        public string Header { get; set; }
+
+        public PdfMeta()
+        {
+            this.Title = "";
+            this.Subject = "";
+            this.Keywords = "";
+            this.Creator = "";
+            this.Author = "";
+            this.Header = "";
+        }
+
     }
 }
