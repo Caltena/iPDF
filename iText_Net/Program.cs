@@ -42,7 +42,7 @@ namespace iText_Net
             iPDF.SetImage("ImageTOP", @"C:\Users\Claus.Altena\Pictures\Saved Pictures\itsm.png");
             iPDF.SetQR("ImageTOPRight");
 
-            iPDF.createTable5();
+            iPDF.createTable();
 
             iPDF.Ende();
         }

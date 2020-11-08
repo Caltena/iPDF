@@ -70,8 +70,6 @@ namespace iText_Net_DLL
             document.Add(qrcodeImage);
         }
 
-
-
         public void SetImage( string xTag , string sFile)
         {
             ReadImage cAdd = new ReadImage(xTag, sCustomerFile);
@@ -81,22 +79,24 @@ namespace iText_Net_DLL
             document.Add(qrcodeImage);
         }
 
-
-
-        public void createTable5()
+        public void createTable()
         {
+            Paragraph para = new Paragraph("-");
 
-            PdfPTable table = new PdfPTable(9);
-            table.TotalWidth = (float)document.PageSize.Width;
+            document.Add(para);
+
+            PdfPTable table = new PdfPTable(4);
+            table.SpacingBefore = 200f;
+            table.SpacingAfter = 3f;
+
+            table.TotalWidth = (float)document.PageSize.Width - 144;
             table.LockedWidth = true;
 
-            float[] widths = new float[] { 0.1f, 0.2f , 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
+            float[] widths = new float[] { 1f, 1f , 3f, 1f };
 
             table.SetWidths(widths);
-
-            // table.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
-
-            //leave a gap before and after the table
+            
+            table.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
 
             table.SpacingBefore = 400f;
             table.SpacingAfter = 3f;
@@ -106,23 +106,14 @@ namespace iText_Net_DLL
             table.AddCell(CreateHeaderCell("H2"));
             table.AddCell(CreateHeaderCell("H3"));
             table.AddCell(CreateHeaderCell("H4"));
-            table.AddCell(CreateHeaderCell("H5"));
-            table.AddCell(CreateHeaderCell("H6"));
-            table.AddCell(CreateHeaderCell("H7"));
-            table.AddCell(CreateHeaderCell("H8"));
-            table.AddCell(CreateHeaderCell("H9"));
+
 
             for (int i = 0; i < 60; i++)
             {
-                table.AddCell(("D1"));
-                table.AddCell(("D2"));
-                table.AddCell(("D3"));
-                table.AddCell(("D4"));
-                table.AddCell(("D5"));
-                table.AddCell(("D6"));
-                table.AddCell(("D7"));
-                table.AddCell(("D8"));
-                table.AddCell(("D9"));
+                table.AddCell(CreateHRowCell("D1"));
+                table.AddCell(CreateHRowCell("D2"));
+                table.AddCell(CreateHRowCell("D3"));
+                table.AddCell(CreateHRowCell("D4"));
             }
        
             this.document.Add (table);
@@ -163,6 +154,17 @@ namespace iText_Net_DLL
             
             pcell.VerticalAlignment = Element.ALIGN_BOTTOM;
             pcell.HorizontalAlignment = Element.ALIGN_CENTER;
+            return pcell;
+        }
+
+        private PdfPCell CreateHRowCell(string sText)
+        {
+            PdfPCell pcell = new PdfPCell();
+            pcell.Phrase = new Phrase(sText);
+            pcell.Border = 0;
+
+            pcell.VerticalAlignment = Element.ALIGN_BOTTOM;
+            pcell.HorizontalAlignment = Element.ALIGN_RIGHT;
             return pcell;
         }
 
