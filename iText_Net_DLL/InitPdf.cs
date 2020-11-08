@@ -64,11 +64,6 @@ namespace iText_Net_DLL
 
 
         #region Metadaten
-        public void SetMeta()
-        {
-            
-        }
-
         public void SetMetaPDF(PdfMeta cMeta)
         {
             document.AddTitle(cMeta.Title);
@@ -186,7 +181,7 @@ namespace iText_Net_DLL
             table.TotalWidth = (float)document.PageSize.Width - 144;
             table.LockedWidth = true;
 
-            float[] widths = new float[] { 1f, 1f, 3f, 1f };
+            float[] widths = new float[] { 1f, 1f, 3f, 2f };
 
             table.SetWidths(widths);
 
@@ -210,11 +205,35 @@ namespace iText_Net_DLL
                 table.AddCell(CreateRowCell("D4"));
             }
 
+            table.AddCell(CreateEndCell("",  1, 0, 0, 0));
+            table.AddCell(CreateEndCell("", 1, 0, 0, 0));
+            table.AddCell(CreateEndCell("", 1, 0, 0, 0));
+            table.AddCell(CreateEndCell("Summe", 1, 0, 0, 0));
+
             this.document.Add(table);
         }
         #endregion
 
         #region TableCell
+
+        private PdfPCell CreateEndCell(string sText, int bTop, int bBottom, int bRight, int bLeft)
+        {
+            PdfPCell pcell = new PdfPCell();
+            pcell.Phrase = new Phrase(sText);
+            pcell.Border = 0;
+            pcell.BorderColor = BaseColor.Green;
+
+            if (bTop == 1) pcell.BorderWidthTop = 1;
+            if (bBottom == 1) pcell.BorderWidthBottom = 1;
+            if (bRight == 1) pcell.BorderWidthRight = 1;
+            if (bLeft == 1) pcell.BorderWidthLeft = 1;
+
+
+            pcell.VerticalAlignment = Element.ALIGN_BOTTOM;
+            pcell.HorizontalAlignment = Element.ALIGN_LEFT;
+            return pcell;
+        }
+
         private PdfPCell CreateHeaderCell(string sText)
         {
             PdfPCell pcell = new PdfPCell();
