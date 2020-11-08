@@ -44,22 +44,37 @@ namespace iText_Net_DLL
             this.writer = PdfWriter.GetInstance(document, fs);
             this.sCustomerFile = _sCustomerFile;
             writer.PageEvent = new ITextEvents();
-        }
-
-
-        public void Start()
-        {
             this.document.Open();
-            SetMetaPDF("Claus Altena");
         }
 
 
-        public void Ende()
+        public InitPdf(string _File, string _sCustomerFile)
+        {
+            FileStream fs = new FileStream(_File, FileMode.Create, FileAccess.Write, FileShare.None);
+            this.document = new Document(iTextSharp.text.PageSize.A4, 72, 72, 108, 188);
+            this.writer = PdfWriter.GetInstance(document, fs);
+            this.sCustomerFile = _sCustomerFile;
+            writer.PageEvent = new ITextEvents();
+            this.document.Open();
+        }
+
+
+        ~InitPdf()
         {
             writer.AddJavaScript("this.print();");
             this.document.Close();
             writer.Close();
         }
+
+
+
+        public void SetMeta()
+        {
+
+            SetMetaPDF("Claus Altena");
+        }
+
+
 
 
         public void SetQR(string xTag)
@@ -89,7 +104,7 @@ namespace iText_Net_DLL
             document.Add(para);
 
             PdfPTable table = new PdfPTable(4);
-            table.SpacingBefore = 200f;
+            table.SpacingBefore = 100f;
             table.SpacingAfter = 3f;
 
             table.TotalWidth = (float)document.PageSize.Width - 144;
