@@ -20,6 +20,9 @@ using System.Dynamic;
 namespace iText_Net_DLL
 {
 
+    /// <summary>
+    /// Initialisieren des Dokuments
+    /// </summary>
     public class InitPdf : DocWriter
     {
 
