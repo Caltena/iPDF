@@ -20,6 +20,7 @@ namespace iText_Net_DLL
 
         #region Fields
         private string _header;
+        private string _sCol1;
         #endregion
 
         #region Properties
@@ -28,8 +29,18 @@ namespace iText_Net_DLL
             get { return _header; }
             set { _header = value; }
         }
+
+        public string sCol1
+        {
+            get { return _sCol1; }
+            set { _sCol1 = value; }
+        }
         #endregion
 
+        public ITextEvents (string Col1)
+        {
+            this.sCol1 = Col1;
+        }
 
         public override void OnOpenDocument(PdfWriter writer, Document document)
         {
@@ -85,6 +96,10 @@ namespace iText_Net_DLL
                 cb.SetFontAndSize(bf, 8);
                 cb.SetTextMatrix(document.PageSize.GetRight(100), document.PageSize.GetBottom(40));
                 cb.ShowText(text);
+
+                cb.SetTextMatrix(document.PageSize.GetLeft(100), document.PageSize.GetBottom(40));
+                cb.ShowText(this.sCol1);
+
                 cb.EndText();
                 float len = bf.GetWidthPoint(text, 8);
                 cb.AddTemplate(footerTemplate, document.PageSize.GetRight(100) + len, document.PageSize.GetBottom(40));

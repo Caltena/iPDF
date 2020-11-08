@@ -35,7 +35,7 @@ namespace iText_Net_DLL
             this.document = _doc;
             this.writer = PdfWriter.GetInstance(document, fs);
             this.sCustomerFile = _sCustomerFile;
-            writer.PageEvent = new ITextEvents();
+            writer.PageEvent = new ITextEvents("nambe \n test");
             this.document.Open();
         }
 
@@ -46,7 +46,7 @@ namespace iText_Net_DLL
             this.document = new Document(iTextSharp.text.PageSize.A4, 72, 72, 72, 72);
             this.writer = PdfWriter.GetInstance(document, fs);
             this.sCustomerFile = _sCustomerFile;
-            writer.PageEvent = new ITextEvents();
+            writer.PageEvent = new ITextEvents("nambe \n test");
             this.document.Open();
         }
 
