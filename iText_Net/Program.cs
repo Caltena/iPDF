@@ -40,7 +40,7 @@ namespace iText_Net
             iPDF.CustomerAdress(sAddress, "Kunde * Strasse * PLZ ORT");
 
             iPDF.SetImage("ImageTOP", @"C:\Users\Claus.Altena\Pictures\Saved Pictures\itsm.png");
-            iPDF.SetImage("ImageTOPRight", @"C:\Users\Claus.Altena\Pictures\Saved Pictures\itsm.png");
+            iPDF.SetQR("ImageTOPRight");
 
             iPDF.createTable5();
 

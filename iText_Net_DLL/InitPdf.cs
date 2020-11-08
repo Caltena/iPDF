@@ -48,7 +48,6 @@ namespace iText_Net_DLL
         {
             this.document.Open();
             SetMetaPDF("Claus Altena");
-            SetQR();
         }
 
 
@@ -60,19 +59,22 @@ namespace iText_Net_DLL
         }
 
 
-        public void SetQR()
+        public void SetQR(string xTag)
         {
             /* QR-Code */
-             Image qrcodeImage = CreateQrCodeImage("This is a text ...");
-             qrcodeImage.SetAbsolutePosition(100, 100 );
-             document.Add(qrcodeImage);
+            
+            ReadImage cAdd = new ReadImage(xTag, sCustomerFile);
+            Image qrcodeImage = CreateQrCodeImage("This is a text ...");
+            qrcodeImage.SetAbsolutePosition(cAdd.PosX, (float)(document.PageSize.Height - cAdd.PosY - (int)Math.Round((qrcodeImage.Height / 254) * 72.0)));
+            qrcodeImage.ScalePercent(cAdd.Scale);
+            document.Add(qrcodeImage);
         }
 
 
 
         public void SetImage( string xTag , string sFile)
         {
-            ReadImage cAdd = new ReadImage(xTag, "Customer.xml");
+            ReadImage cAdd = new ReadImage(xTag, sCustomerFile);
             Image qrcodeImage = Image.GetInstance(sFile);
             qrcodeImage.SetAbsolutePosition(cAdd.PosX, (float)(document.PageSize.Height - cAdd.PosY  - (int)Math.Round((qrcodeImage.Height / 254) * 72.0) ));
             qrcodeImage.ScalePercent(cAdd.Scale );
@@ -128,7 +130,7 @@ namespace iText_Net_DLL
 
         public PdfPTable CustomerAdress(List<string> sCustomerAdress, string sSender )
         {
-            ReadAdress cAdd = new ReadAdress("Customer.xml");
+            ReadAdress cAdd = new ReadAdress(sCustomerFile);
             PdfContentByte pcb = writer.DirectContent;
             PdfPTable table = new PdfPTable(1);
             table.TotalWidth = Convert.ToSingle(cAdd.TotalWidth);
@@ -166,7 +168,7 @@ namespace iText_Net_DLL
 
         public PdfPTable CustomerRef(System.Collections.Generic.List<CustomerRef> customerRefs)
         {
-            CustomerReferenz cAdd = new CustomerReferenz("Customer.xml");
+            CustomerReferenz cAdd = new CustomerReferenz(sCustomerFile);
             PdfContentByte pcb = writer.DirectContent;
             PdfPTable table = new PdfPTable(2);
             table.TotalWidth = Convert.ToSingle(cAdd.TotalWidth);

@@ -12,16 +12,9 @@ namespace iText_Net_DLL
     public class ITextEvents : PdfPageEventHelper
     {
 
-        // This is the contentbyte object of the writer
         PdfContentByte cb;
-
-        // we will put the final number of pages in a template
         PdfTemplate headerTemplate, footerTemplate;
-
-        // this is the BaseFont we are going to use for the header / footer
         BaseFont bf = null;
-
-        // This keeps track of the creation time
         DateTime PrintTime = DateTime.Now;
 
 
@@ -90,16 +83,16 @@ namespace iText_Net_DLL
             {
                 cb.BeginText();
                 cb.SetFontAndSize(bf, 8);
-                cb.SetTextMatrix(document.PageSize.GetRight(100), document.PageSize.GetBottom(30));
+                cb.SetTextMatrix(document.PageSize.GetRight(100), document.PageSize.GetBottom(40));
                 cb.ShowText(text);
                 cb.EndText();
                 float len = bf.GetWidthPoint(text, 8);
-                cb.AddTemplate(footerTemplate, document.PageSize.GetRight(100) + len, document.PageSize.GetBottom(30));
+                cb.AddTemplate(footerTemplate, document.PageSize.GetRight(100) + len, document.PageSize.GetBottom(40));
             }
             //Move the pointer and draw line to separate footer section from rest of page
             cb.MoveTo(40, document.PageSize.GetBottom(50));
 
-            cb.LineTo(document.PageSize.Width - 40, document.PageSize.GetBottom(50));
+            cb.LineTo(document.PageSize.Width - 10, document.PageSize.GetBottom(50));
             cb.Stroke();
         }
 

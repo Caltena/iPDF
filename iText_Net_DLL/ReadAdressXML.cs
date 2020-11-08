@@ -71,9 +71,7 @@ namespace iText_Net_DLL
         public ReadAdress(string filename)
         {
             initClass();
-            string currentDirectory = @"c:\apps";
-            String Filepath = Path.Combine(currentDirectory, filename);
-            XDocument loaded = XDocument.Load(Filepath);
+            XDocument loaded = XDocument.Load(filename);
 
             /* Allgemein */
             this.PosY = MmmToPixel(Convert.ToDouble((from c in loaded.Descendants("OfferAdress") select (string)c.Element("PosY")).SingleOrDefault()));
