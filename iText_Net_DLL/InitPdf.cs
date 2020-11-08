@@ -6,8 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using iTextSharp.text.pdf.qrcode;
 using iTextSharp.text.pdf.codec;
-
-
+using System.Linq.Expressions;
 
 namespace iText_Net_DLL
 {
@@ -208,7 +207,7 @@ namespace iText_Net_DLL
             table.AddCell(CreateEndCell("",  1, 0, 0, 0));
             table.AddCell(CreateEndCell("", 1, 0, 0, 0));
             table.AddCell(CreateEndCell("", 1, 0, 0, 0));
-            table.AddCell(CreateEndCell("Summe", 1, 0, 0, 0));
+            table.AddCell(CreateEndCell("Summe", 1, 0, 0, 0, 'r'));
 
             this.document.Add(table);
         }
@@ -231,6 +230,36 @@ namespace iText_Net_DLL
 
             pcell.VerticalAlignment = Element.ALIGN_BOTTOM;
             pcell.HorizontalAlignment = Element.ALIGN_LEFT;
+            return pcell;
+        }
+
+        private PdfPCell CreateEndCell(string sText, int bTop, int bBottom, int bRight, int bLeft, char Align)
+        {
+            PdfPCell pcell = new PdfPCell();
+            pcell.Phrase = new Phrase(sText);
+            pcell.Border = 0;
+            pcell.BorderColor = BaseColor.Green;
+
+            switch (Align)
+            {
+                case 'l':
+                    pcell.HorizontalAlignment = Element.ALIGN_LEFT;
+                    break;
+                case 'c':
+                    pcell.HorizontalAlignment = Element.ALIGN_CENTER;
+                    break;
+                default:
+                    pcell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    break;
+            }
+
+            if (bTop == 1) pcell.BorderWidthTop = 1;
+            if (bBottom == 1) pcell.BorderWidthBottom = 1;
+            if (bRight == 1) pcell.BorderWidthRight = 1;
+            if (bLeft == 1) pcell.BorderWidthLeft = 1;
+
+
+            pcell.VerticalAlignment = Element.ALIGN_BOTTOM;
             return pcell;
         }
 

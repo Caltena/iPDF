@@ -101,24 +101,25 @@ namespace iText_Net_DLL
             XDocument loaded = XDocument.Load(filename);
 
             /* Allgemein */
-            this.PosY = MmmToPixel(Convert.ToDouble((from c in loaded.Descendants("OfferCustomerInfo") select (string)c.Element("PosY")).SingleOrDefault()));
-            this.PosX = MmmToPixel(Convert.ToDouble((from c in loaded.Descendants("OfferCustomerInfo") select (string)c.Element("PosX")).SingleOrDefault()));
-            this.TotalWidth = MmmToPixel(Convert.ToDouble((from c in loaded.Descendants("OfferCustomerInfo") select (string)c.Element("TotalWidth")).SingleOrDefault()));
-            this.Border = Convert.ToInt32((from c in loaded.Descendants("OfferCustomerInfo") select (string)c.Element("Border")).SingleOrDefault());
+            XElement xTest = (from c in loaded.Descendants("OfferCustomerInfo") select c.Element("STYLE")).SingleOrDefault();
+            this.PosY = MmmToPixel(Convert.ToDouble(xTest.Attribute("PosY").Value));
+            this.PosX = MmmToPixel(Convert.ToDouble(xTest.Attribute("PosX").Value));
+            this.TotalWidth = MmmToPixel(Convert.ToDouble(xTest.Attribute("TotalWidth").Value));
+            this.Border = Convert.ToInt32(xTest.Attribute("Border").Value);
 
             /* Label */
-            this.LabelFont = (from c in loaded.Descendants("Offer_Label") select (string)c.Element("Font")).SingleOrDefault();
-            this.LabelFontSize = Convert.ToInt32((from c in loaded.Descendants("Offer_Label") select (string)c.Element("FontSize")).SingleOrDefault());
-            this.LabelFontStyle = Convert.ToInt32((from c in loaded.Descendants("Offer_Label") select (string)c.Element("FontStyle")).SingleOrDefault());
-            this.LabelBaseColor = (from c in loaded.Descendants("Offer_Label") select (string)c.Element("FontBaseColor")).SingleOrDefault();
+            xTest = (from c in loaded.Descendants("OfferCustomerInfo") select c.Element("LABEL")).SingleOrDefault();
+            this.LabelFontSize = Convert.ToInt32(xTest.Attribute("FontSize").Value);
+            this.LabelFontStyle = Convert.ToInt32(xTest.Attribute("FontStyle").Value);
+            this.LabelBaseColor = xTest.Attribute("FontBaseColor").Value.ToString();
+            this.LabelFont = xTest.Attribute("Font").Value.ToString();
 
             /* Text */
-            this.TextFont = (from c in loaded.Descendants("Offer_Text") select (string)c.Element("Font")).SingleOrDefault();
-            this.TextFontSize = Convert.ToInt32((from c in loaded.Descendants("Offer_Text") select (string)c.Element("FontSize")).SingleOrDefault());
-            this.TextFontStyle = Convert.ToInt32((from c in loaded.Descendants("Offer_Text") select (string)c.Element("FontStyle")).SingleOrDefault());
-            this.TextBaseColor = (from c in loaded.Descendants("Offer_Text") select (string)c.Element("FontBaseColor")).SingleOrDefault();
-
-
+            xTest = (from c in loaded.Descendants("OfferCustomerInfo") select c.Element("TEXT")).SingleOrDefault();
+            this.TextFontSize = Convert.ToInt32(xTest.Attribute("FontSize").Value);
+            this.TextFontStyle = Convert.ToInt32(xTest.Attribute("FontStyle").Value);
+            this.TextBaseColor = xTest.Attribute("FontBaseColor").Value.ToString();
+            this.TextFont = xTest.Attribute("Font").Value.ToString();
 
         }
     }
