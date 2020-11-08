@@ -1,37 +1,36 @@
 <?xml version="1.0"?><!-- Angebote -->
 <root>
 <OfferCustomerInfo>
-  <Font>Arial</Font>
-  <Border>1</Border>
-  <PosX>1000</PosX>
-  <PosY>250</PosY>
-  <TotalWidth>500</TotalWidth>
-  <Offer_Label>
-    <Font>Courier</Font>
-    <FontSize>6</FontSize>
-    <FontStyle>0</FontStyle><!-- 0:Normal | Bold:1 | STRIKETHRU:8 | ITALIC:2 | BOLDITALIC:3    -->
-    <FontBaseColor>Black</FontBaseColor>
-  </Offer_Label>
-  <Offer_Text>
-    <Font>Arial</Font>
-    <FontSize>6</FontSize>
-    <FontStyle>1</FontStyle>
-    <FontBaseColor>Grey</FontBaseColor>
-  </Offer_Text>
+  <STYLE Font="Arial"
+         Border ="1"
+         PosX="1000"
+         PosY="250"
+         TotalWidth="500"/>
+
+  <!--  FontStyle => 0:Normal | Bold:1 | STRIKETHRU:8 | ITALIC:2 | BOLDITALIC:3    -->
+  <LABEL Font="Courier"
+         FontSize="6"
+         FontStyle="0"
+         FontBaseColor="Black"/>
+
+  <TEXT Font="Arial"
+       FontSize="6"
+       FontStyle="0"
+       FontBaseColor="Black"/>
 </OfferCustomerInfo>
 
 <OfferAdress>
-  <Font>Arial</Font>
-  <Border>1</Border>
-  <PosX>250</PosX>
-  <PosY>250</PosY>
-  <TotalWidth>500</TotalWidth>
-  <Offer_Adress>
-    <Font>Arial</Font>
-    <FontSize>6</FontSize>
-    <FontStyle>0</FontStyle><!-- 0:Normal | Bold:1 | STRIKETHRU:8 | ITALIC:2 | BOLDITALIC:3    -->
-    <FontBaseColor>Black</FontBaseColor>
-  </Offer_Adress>
+  <STYLE Font="Arial"
+       Border ="1"
+       PosX="250"
+       PosY="250"
+       TotalWidth="500"/>
+
+  <TEXT Font="Arial"
+       FontSize="6"
+       FontStyle="0"
+       FontBaseColor="Black"/>
+
 </OfferAdress>
 
 <ImageTOP>
@@ -42,8 +41,8 @@
     
 <ImageTOPRight>
   <PosX>1000</PosX>
-  <PosY>15</PosY>
-  <Scale>100</Scale>
+  <PosY>150</PosY>
+  <Scale>200</Scale>
 </ImageTOPRight>
 
 </root>
