@@ -1,20 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Collections;
-
-using iTextSharp;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.Collections.Generic;
 using System.Linq;
-
-
 using iTextSharp.text.pdf.qrcode;
 using iTextSharp.text.pdf.codec;
-using System.ComponentModel;
 
-using System.Xml.Linq;
-using System.Dynamic;
 
 
 namespace iText_Net_DLL
@@ -51,7 +43,7 @@ namespace iText_Net_DLL
         public InitPdf(string _File, string _sCustomerFile)
         {
             FileStream fs = new FileStream(_File, FileMode.Create, FileAccess.Write, FileShare.None);
-            this.document = new Document(iTextSharp.text.PageSize.A4, 72, 72, 108, 188);
+            this.document = new Document(iTextSharp.text.PageSize.A4, 72, 72, 72, 72);
             this.writer = PdfWriter.GetInstance(document, fs);
             this.sCustomerFile = _sCustomerFile;
             writer.PageEvent = new ITextEvents();
@@ -67,16 +59,24 @@ namespace iText_Net_DLL
         }
 
 
-
+        #region Metadaten
         public void SetMeta()
         {
-
             SetMetaPDF("Claus Altena");
         }
 
+        public void SetMetaPDF(string Author)
+        {
+            document.AddTitle("Hello World example");
+            document.AddSubject("This is an Example 4 of Chapter 1 of Book 'iText in Action'");
+            document.AddKeywords("Metadata, iTextSharp 5.4.4, Chapter 1, Tutorial");
+            document.AddCreator("iTextSharp 5.4.4");
+            document.AddAuthor(Author);
+            document.AddHeader("Nothing", "No Header");
+        }
+        #endregion
 
-
-
+        #region QR-Code
         public void SetQR(string xTag)
         {
             /* QR-Code */
@@ -87,7 +87,9 @@ namespace iText_Net_DLL
             qrcodeImage.ScalePercent(cAdd.Scale);
             document.Add(qrcodeImage);
         }
+        #endregion
 
+        #region Image
         public void SetImage( string xTag , string sFile)
         {
             ReadImage cAdd = new ReadImage(xTag, sCustomerFile);
@@ -96,48 +98,10 @@ namespace iText_Net_DLL
             qrcodeImage.ScalePercent(cAdd.Scale );
             document.Add(qrcodeImage);
         }
+        #endregion
 
-        public void createTable()
-        {
-            Paragraph para = new Paragraph("-");
-
-            document.Add(para);
-
-            PdfPTable table = new PdfPTable(4);
-            table.SpacingBefore = 100f;
-            table.SpacingAfter = 3f;
-
-            table.TotalWidth = (float)document.PageSize.Width - 144;
-            table.LockedWidth = true;
-
-            float[] widths = new float[] { 1f, 1f , 3f, 1f };
-
-            table.SetWidths(widths);
-            
-            table.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
-
-            table.SpacingBefore = 400f;
-            table.SpacingAfter = 3f;
-
-            table.HeaderRows = 1;
-            table.AddCell(CreateHeaderCell("H1"));
-            table.AddCell(CreateHeaderCell("H2"));
-            table.AddCell(CreateHeaderCell("H3"));
-            table.AddCell(CreateHeaderCell("H4"));
-
-
-            for (int i = 0; i < 60; i++)
-            {
-                table.AddCell(CreateHRowCell("D1"));
-                table.AddCell(CreateHRowCell("D2"));
-                table.AddCell(CreateHRowCell("D3"));
-                table.AddCell(CreateHRowCell("D4"));
-            }
-       
-            this.document.Add (table);
-        }
-
-        public PdfPTable CustomerAdress(List<string> sCustomerAdress, string sSender )
+        #region Customer Adress & Referenz
+        public PdfPTable CustomerAddress(List<string> sCustomerAdress, string sSender )
         {
             ReadAdress cAdd = new ReadAdress(sCustomerFile);
             PdfContentByte pcb = writer.DirectContent;
@@ -158,32 +122,10 @@ namespace iText_Net_DLL
 
             foreach (string cRef in sCustomerAdress)
             {
-                table.AddCell(CreateAdressCell(cRef, fontTable, 0, 0, 0, 0));
+                table.AddCell(CreateAddressCell(cRef, fontTable, 0, 0, 0, 0));
             }
             table.WriteSelectedRows(0, -1, cAdd.PosX, document.PageSize.Height - cAdd.PosY, pcb);
             return (table);
-        }
-
-        private PdfPCell CreateHeaderCell(string sText )
-        {
-            PdfPCell pcell = new PdfPCell();
-            pcell.Phrase = new Phrase(sText);
-            pcell.Border = 0;
-            
-            pcell.VerticalAlignment = Element.ALIGN_BOTTOM;
-            pcell.HorizontalAlignment = Element.ALIGN_CENTER;
-            return pcell;
-        }
-
-        private PdfPCell CreateHRowCell(string sText)
-        {
-            PdfPCell pcell = new PdfPCell();
-            pcell.Phrase = new Phrase(sText);
-            pcell.Border = 0;
-
-            pcell.VerticalAlignment = Element.ALIGN_BOTTOM;
-            pcell.HorizontalAlignment = Element.ALIGN_RIGHT;
-            return pcell;
         }
 
         public PdfPTable CustomerRef(System.Collections.Generic.List<CustomerRef> customerRefs)
@@ -200,23 +142,23 @@ namespace iText_Net_DLL
             table.DefaultCell.Border = iTextSharp.text.Rectangle.NO_BORDER;
 
             int i = 0;
-            foreach( CustomerRef cRef in customerRefs)
+            foreach (CustomerRef cRef in customerRefs)
             {
                 i++;
                 if (i == 1)
                 {
-                    table.AddCell(CreateAdressCell(cRef.sLabel, fontTable, cAdd.Border, 0, 0, cAdd.Border));
-                    table.AddCell(CreateAdressCell(cRef.sText, fontTable1, cAdd.Border, 0, cAdd.Border, 0));
+                    table.AddCell(CreateAddressCell(cRef.sLabel, fontTable, cAdd.Border, 0, 0, cAdd.Border));
+                    table.AddCell(CreateAddressCell(cRef.sText, fontTable1, cAdd.Border, 0, cAdd.Border, 0));
                 }
                 else if (i == customerRefs.Count())
                 {
-                    table.AddCell(CreateAdressCell(cRef.sLabel, fontTable, 0, cAdd.Border, 0, cAdd.Border));
-                    table.AddCell(CreateAdressCell(cRef.sText, fontTable1, 0, cAdd.Border, cAdd.Border, 0));
+                    table.AddCell(CreateAddressCell(cRef.sLabel, fontTable, 0, cAdd.Border, 0, cAdd.Border));
+                    table.AddCell(CreateAddressCell(cRef.sText, fontTable1, 0, cAdd.Border, cAdd.Border, 0));
                 }
                 else
                 {
-                    table.AddCell(CreateAdressCell(cRef.sLabel, fontTable, 0, 0, 0, cAdd.Border));
-                    table.AddCell(CreateAdressCell(cRef.sText, fontTable1, 0, 0, cAdd.Border, 0));
+                    table.AddCell(CreateAddressCell(cRef.sLabel, fontTable, 0, 0, 0, cAdd.Border));
+                    table.AddCell(CreateAddressCell(cRef.sText, fontTable1, 0, 0, cAdd.Border, 0));
 
                 }
 
@@ -225,7 +167,73 @@ namespace iText_Net_DLL
             return (table);
         }
 
-        private PdfPCell CreateAdressCell(string sText, iTextSharp.text.Font fontTable, int bTop, int bBottom, int bRight, int bLeft)
+        #endregion
+
+        #region Positionen
+        public void createPositionTable()
+        {
+            Paragraph para = new Paragraph(Environment.NewLine);
+
+            document.Add(para);
+
+            PdfPTable table = new PdfPTable(4);
+
+
+            table.TotalWidth = (float)document.PageSize.Width - 144;
+            table.LockedWidth = true;
+
+            float[] widths = new float[] { 1f, 1f, 3f, 1f };
+
+            table.SetWidths(widths);
+
+            table.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
+
+            table.SpacingBefore = 100f;
+            table.SpacingAfter = 3f;
+
+            table.HeaderRows = 1;
+            table.AddCell(CreateHeaderCell("H1"));
+            table.AddCell(CreateHeaderCell("H2"));
+            table.AddCell(CreateHeaderCell("H3"));
+            table.AddCell(CreateHeaderCell("H4"));
+
+
+            for (int i = 0; i < 60; i++)
+            {
+                table.AddCell(CreateRowCell("D1"));
+                table.AddCell(CreateRowCell("D2"));
+                table.AddCell(CreateRowCell("D3"));
+                table.AddCell(CreateRowCell("D4"));
+            }
+
+            this.document.Add(table);
+        }
+        #endregion
+
+        #region TableCell
+        private PdfPCell CreateHeaderCell(string sText )
+        {
+            PdfPCell pcell = new PdfPCell();
+            pcell.Phrase = new Phrase(sText);
+            pcell.Border = 0;
+            
+            pcell.VerticalAlignment = Element.ALIGN_BOTTOM;
+            pcell.HorizontalAlignment = Element.ALIGN_CENTER;
+            return pcell;
+        }
+
+        private PdfPCell CreateRowCell(string sText)
+        {
+            PdfPCell pcell = new PdfPCell();
+            pcell.Phrase = new Phrase(sText);
+            pcell.Border = 0;
+
+            pcell.VerticalAlignment = Element.ALIGN_BOTTOM;
+            pcell.HorizontalAlignment = Element.ALIGN_RIGHT;
+            return pcell;
+        }
+
+        private PdfPCell CreateAddressCell(string sText, iTextSharp.text.Font fontTable, int bTop, int bBottom, int bRight, int bLeft)
         {
             PdfPCell pcell = new PdfPCell();
             pcell.Phrase = new Phrase(sText, fontTable);
@@ -243,6 +251,8 @@ namespace iText_Net_DLL
             return pcell;
         }
 
+        #endregion
+
         public void SetText(BaseFont bF, Int32 x, Int32 y)
         {
             PdfContentByte cb = writer.DirectContent;
@@ -253,16 +263,6 @@ namespace iText_Net_DLL
             cb.ShowText("My status /n ggdgdgdgdggd");
             cb.EndText();
             cb.RestoreState();
-        }
-
-        public void SetMetaPDF(string Author)
-        {
-            document.AddTitle("Hello World example");
-            document.AddSubject("This is an Example 4 of Chapter 1 of Book 'iText in Action'");
-            document.AddKeywords("Metadata, iTextSharp 5.4.4, Chapter 1, Tutorial");
-            document.AddCreator("iTextSharp 5.4.4");
-            document.AddAuthor(Author);
-            document.AddHeader("Nothing", "No Header");
         }
 
         private static Image CreateQrCodeImage(string content)
