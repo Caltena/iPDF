@@ -14,8 +14,13 @@ namespace iText_Net
     {
         static void Main(string[] args)
         {
-            //InitPdf iPDF = new InitPdf(@"c:\apps\test.pdf", new Document(PageSize.A4 ,72, 72, 108, 108) , @"C:\apps\Customer.xml");
-            InitPdf iPDF = new InitPdf(@"/home/claus/Projekte/test.pdf",  @"/home/claus/Projekte/iPDF/Customer.xml");
+            InitPdf iPDF = new InitPdf(@"c:\apps\test.pdf", new Document(PageSize.A4 ,72, 72, 108, 108) , @"C:\apps\Customer.xml");
+            /*
+             * ext4
+             * 
+             * InitPdf iPDF = new InitPdf(@"/home/claus/Projekte/test.pdf",  @"/home/claus/Projekte/iPDF/Customer.xml");
+             * */
+
             iPDF.SetMeta();
 
 
@@ -49,11 +54,18 @@ namespace iText_Net
             /* Bilder & QR-Code
              * 
              */
-             iPDF.SetImage("ImageTOP", @"/home/claus/Bilder/8375260.jpeg");
-            // iPDF.SetQR("ImageTOP");
+            /*  
+             *  ext4
+             *  iPDF.SetImage("ImageTOP", @"/home/claus/Bilder/8375260.jpeg");
+             *  */
+
+            iPDF.SetImage("ImageTOP", @"C:\Users\Claus.Altena\Pictures\ewu.png");
+
+            iPDF.SetQR("ImageTOPRight");
 
             iPDF.createPositionTable();
 
+            iPDF.WritePdf();
 
         }
     }
