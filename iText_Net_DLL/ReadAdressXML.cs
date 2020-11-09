@@ -46,7 +46,6 @@ namespace iText_Net_DLL
             this.PosY = 10;
             this.Border = 0;
 
-
             this.TextFont = "Arial";
             this.TextFontSize = 10;
             this.TextFontStyle = 0;

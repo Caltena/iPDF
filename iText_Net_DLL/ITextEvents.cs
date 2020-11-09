@@ -71,7 +71,7 @@ namespace iText_Net_DLL
             iTextSharp.text.Font baseFontBig = FontFactory.GetFont("HELVETICA", 12f, iTextSharp.text.Font.NORMAL, iTextSharp.text.BaseColor.Black);
 
             //Create PdfTable object
-            PdfPTable pdfTab = new PdfPTable(3);
+            //PdfPTable pdfTab = new PdfPTable(3);
 
             String text = "Page " + writer.PageNumber + " of ";
 
@@ -105,8 +105,7 @@ namespace iText_Net_DLL
                 cb.AddTemplate(footerTemplate, document.PageSize.GetRight(100) + len, document.PageSize.GetBottom(40));
             }
             //Move the pointer and draw line to separate footer section from rest of page
-            cb.MoveTo(40, document.PageSize.GetBottom(50));
-
+            cb.MoveTo(10, document.PageSize.GetBottom(50));
             cb.LineTo(document.PageSize.Width - 10, document.PageSize.GetBottom(50));
             cb.Stroke();
         }
@@ -118,7 +117,6 @@ namespace iText_Net_DLL
             headerTemplate.BeginText();
             headerTemplate.SetFontAndSize(bf, 12);
             headerTemplate.SetTextMatrix(0, 0);
-            // headerTemplate.ShowText((writer.PageNumber - 1).ToString());
             headerTemplate.EndText();
 
             footerTemplate.BeginText();
